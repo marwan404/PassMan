@@ -34,10 +34,14 @@ def initMode():
     algType = Type.ID
     hashLen = 32 #AESGCM wants 32
     masterKey = hash_secret_raw(masterBytes, salt, timeCost, memoryCost, parallelism, hashLen, algType)
+    
+    del master
+    del master_bytes
+
     # Derive encryption and auth subkeys from masterKey
     enc_key = hmac.new(masterKey, b"enc", hashlib.sha256).digest()
     auth_key = hmac.new(masterKey, b"auth", hashlib.sha256).digest()
-
+    del masterKey
     # Build verifier that proves password is correct without decrypting
     verifier = hmac.new(auth_key, b"verify", hashlib.sha256).digest()
     verifier_hex = binascii.hexlify(verifier).decode()
@@ -121,10 +125,18 @@ def unlockMode():
 
         except Exception:
             prRed("UH OHHH!, we encounterd an issue")
+            del masterKey
+            del auth_key
+            del enc_key
+            del verifierCalc
             return None
     else:
         prRed("Incorrect password")
         prRed("exiting program")
+        del masterKey
+        del auth_key
+        del enc_key
+        del verifierCalc
         return None
 
 
