@@ -191,7 +191,7 @@ This project is for **educational and personal use**. While it uses strong crypt
 
 ## 🛠️ Tech Stack
 
-* Python 3.x
+* Python 3.13
 * `argon2-cffi`
 * `cryptography`
 
