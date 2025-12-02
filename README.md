@@ -1,23 +1,55 @@
 # 🔐 Local CLI Password Manager
 
-A secure, single-user, offline **Command-Line Password Manager** built in Python. This project focuses on **real cryptographic design**, not shortcuts. No cloud. No plaintext on disk. No stored passwords.
+A secure, single-user, offline **Command-Line Password Manager** built in Python. This project focuses on **real cryptographic design and secure systems programming**, not shortcuts. No cloud. No plaintext on disk. Zero trust in storage.
 
 ---
 
 ## ✅ Current Status
 
-## ✅ Phase 1 – Cryptographic Lock System: COMPLETE
+* ✅ **Phase 1** — Cryptographic Lock & Authentication System: **COMPLETE**
+* ✅ **Phase 2** — Persistent Encrypted Vault + Custom CLI Command System: **COMPLETE**
+* ⏳ **Phase 3** — UX & Power-User Features (in progress)
+
+---
+
+## ✅ Phase 1 — Cryptographic Lock System (COMPLETE)
 
 Implemented a production-grade security foundation including:
 
-* Secure master password handling
+* Secure master password input via `getpass`
 * Strong key derivation using **Argon2id**
-* Cryptographic key hierarchy (**auth key vs encryption key**)
+* Cryptographic key hierarchy (**authentication key vs encryption key**)
 * HMAC-based password verification
 * Authenticated encryption using **AES-256-GCM**
-* Fully encrypted on-disk vault
+* Fully encrypted on-disk vault with zero plaintext persistence
 
-The vault can be securely created and unlocked using only the correct master password.
+The vault can only be created and unlocked using the correct master password.
+
+---
+
+## ✅ Phase 2 — Encrypted Persistent Vault + CLI Interpreter (COMPLETE)
+
+Phase 2 extended the cryptographic core into a fully usable encrypted password manager:
+
+* Persistent storage with **automatic re-encryption on exit**
+* Fresh AES-GCM nonce generated on every save
+* Custom-built **command language** with:
+
+  * Lexer
+  * Parser
+  * AST nodes
+  * Interpreter
+* All decrypted secrets live **only in RAM during execution**
+
+### ✅ Supported Commands
+
+| Command      | Description                            |
+| ------------ | -------------------------------------- |
+| `add <site>` | Add or overwrite a password entry      |
+| `get <site>` | Retrieve username & password           |
+| `del <site>` | Permanently delete an entry            |
+| `ls`         | List all stored sites                  |
+| `exit`       | Securely re-encrypt and save the vault |
 
 ---
 
@@ -46,7 +78,7 @@ Password + Salt → Argon2id → Master Key (32 bytes)
 * Parallelism: 4
 * Output Length: 32 bytes
 
-This configuration provides strong resistance against offline brute‑force attacks.
+This configuration provides strong resistance against offline brute-force attacks.
 
 ---
 
@@ -86,7 +118,7 @@ This allows the system to:
 ### 5. Vault Encryption
 
 * Algorithm: `AES-256-GCM`
-* Nonce: 12 random bytes per encryption
+* Nonce: 12 random bytes (rotated on every save)
 * Key: `enc_key`
 * Integrity: GCM authentication tag (built-in)
 
@@ -136,56 +168,42 @@ python main.py
 Behavior:
 
 * If `.vault` does not exist → prompts to create a master password
-* If `.vault` exists → prompts to unlock with master password
+* If `.vault` exists → prompts to unlock with the master password
+* All commands operate on decrypted data in RAM only
 
 ---
 
-## 🗂️ Planned Roadmap
+## 🗂️ Roadmap
 
-### 🟡 Phase 2 — Vault Functionality
+### ✅ Phase 1 — Cryptographic Core
 
-* Store password entries (site, username, password)
-* Commands:
+* Secure unlock & vault creation
 
-  * `add`
-  * `get`
-  * `list`
-  * `exit` (re-encrypt & save)
+### ✅ Phase 2 — Persistent Encrypted Storage + CLI
 
-All operations occur in RAM only. Vault is re‑encrypted on exit.
+* Full CRUD operations
+* Encrypted save-on-exit system
 
----
+### ⏳ Phase 3 — UX & Power Features (In Progress)
 
-### 🟠 Phase 3 — Security Hardening
-
-* Brute-force delay
-* Attempt limits
-* Clipboard safety
-* Secure memory wiping
-
----
-
-### 🔵 Phase 4 — Usability Improvements
-
+* Search & filtering
+* Clipboard auto-copy with timeout
 * Password generator
 * Entry editing
-* Entry deletion
-* Search & filtering
-* Improved CLI layout
+* Improved CLI output
 
----
-
-### 🟣 Phase 5 — Advanced Security (Optional)
+### 🟣 Phase 4 — Advanced Security (Optional)
 
 * Per-entry encryption
 * Key rotation
-* Encrypted backups
+* Secure encrypted backups
+* Memory zeroization on exit
 
 ---
 
 ## ⚠️ Disclaimer
 
-This project is for **educational and personal use**. While it uses strong cryptographic primitives, it has not undergone a professional security audit.
+This project is for **educational and personal use**. While it uses strong cryptographic primitives and correct security design patterns, it has **not** undergone a professional security audit.
 
 ---
 
