@@ -8,6 +8,7 @@ import json
 from lexer import tokenize
 import os
 from parser import parse
+import pyperclip
 import secrets
 
 
@@ -22,6 +23,7 @@ def initMode():
     masterConfirm = getpass.getpass("confirm master password: ")
 
     while master != masterConfirm:
+
         prRed("ERROR! Incorrect confirmation")
         master = getpass.getpass("ceate a master password: ")
         masterConfirm = getpass.getpass("confirm master password: ")
@@ -34,14 +36,11 @@ def initMode():
     algType = Type.ID
     hashLen = 32 #AESGCM wants 32
     masterKey = hash_secret_raw(masterBytes, salt, timeCost, memoryCost, parallelism, hashLen, algType)
-    
-    del master
-    del master_bytes
 
     # Derive encryption and auth subkeys from masterKey
     enc_key = hmac.new(masterKey, b"enc", hashlib.sha256).digest()
     auth_key = hmac.new(masterKey, b"auth", hashlib.sha256).digest()
-    del masterKey
+
     # Build verifier that proves password is correct without decrypting
     verifier = hmac.new(auth_key, b"verify", hashlib.sha256).digest()
     verifier_hex = binascii.hexlify(verifier).decode()
@@ -97,16 +96,13 @@ def unlockMode():
     hashLen = data["kdf"]["hash_len"]
 
     nonce = binascii.unhexlify(data["cipher"]["nonce"])
-
     verifier = binascii.unhexlify(data["auth"]["verifier"])
-
     ciphertext = binascii.unhexlify(data["vault"])
 
     master = getpass.getpass("enter your master password: ")
     master_bytes = master.encode("utf-8")
 
     masterKey = hash_secret_raw(master_bytes, salt, timeCost, memoryCost, parallelism, hashLen, Type.ID)
-
     auth_key = hmac.new(masterKey, b"auth", hashlib.sha256).digest()
     enc_key = hmac.new(masterKey, b"enc", hashlib.sha256).digest()
     verifierCalc = hmac.new(auth_key, b"verify", hashlib.sha256).digest()
@@ -124,19 +120,12 @@ def unlockMode():
             return vaultData, enc_key
 
         except Exception:
+
             prRed("UH OHHH!, we encounterd an issue")
-            del masterKey
-            del auth_key
-            del enc_key
-            del verifierCalc
             return None
     else:
         prRed("Incorrect password")
         prRed("exiting program")
-        del masterKey
-        del auth_key
-        del enc_key
-        del verifierCalc
         return None
 
 
@@ -156,6 +145,7 @@ def appendSiteData(site, vaultData):
 
 
 def overwriteSiteData(site, i, vaultData):
+
     print(f"overwriting {site}...")
     username = input("enter your username: ")
     password = getpass.getpass("enter your password for this website: ")
@@ -189,22 +179,40 @@ def executeAdd(site, vaultData):
         appendSiteData(site, vaultData)
 
 
+def executeEdit(site, vaultData):
+    
+    found = False
+    if vaultData["entries"]:
+        for idx, entry in enumerate(vaultData["entries"]):
+            if site == entry["site"]:
+                found = True
+                i = idx
+                break
+        
+        if found:
+            overwriteSiteData(site, i, vaultData)
+
+
 def executeDel(site, vaultData):
 
     found = False
-    for idx, entry in enumerate(vaultData["entries"]):
-        if site == entry["site"]:
-            found = True
-            prYellow(f"are you sure you want to delete all data associated with {site}? (y/n)")
-            choice = input().lower()
-            if choice in ['y', 'yes']:
-                vaultData["entries"].pop(idx)
-                break
-            else:
-                return
- 
-    if not found:
-        prRed(f"{site} not found")
+    if vaultData["entries"]:
+        for idx, entry in enumerate(vaultData["entries"]):
+            if site == entry["site"]:
+                found = True
+                prYellow(f"are you sure you want to delete all data associated with {site}? (y/n)")
+                choice = input().lower()
+                if choice in ['y', 'yes']:
+                    vaultData["entries"].pop(idx)
+                    break
+                else:
+                    return
+    
+        if not found:
+            prRed(f"{site} not found")
+
+    else:
+        prRed("no saved passwords")
 
 
 def executeGet(site, vaultData):
@@ -215,7 +223,14 @@ def executeGet(site, vaultData):
             found = True
             prGreen(f"{site} found!")
             print(f"username: {entry['username']}")
-            print(f"password = {entry['password']}")
+            password = entry["password"]
+            try:
+                pyperclip.copy(password)
+                print("password copied to clipboard")
+            except pyperclip.PyperclipException:
+                prYellow("password couldnt be copied")
+                print(f"password: {password}")
+
 
     if not found:
         prYellow(f"{site} not found, would you like to add it? (y/n)")
@@ -225,7 +240,25 @@ def executeGet(site, vaultData):
         else:
             return
 
+
+def executeSearch(query, vaultData):
+    
+    if vaultData["entries"]:
+        ls = []
+        for entry in vaultData["entries"]:
+            if query in entry["site"]:
+                ls.append(entry["site"])
+        if ls:
+            for i, item in enumerate(ls):
+                print(f"{i}. {ls[i]}")
+        else:
+            prYellow("no results")
+    else:
+        prYellow("there is currently no saved passwords")
+
+
 def executeLs(vaultData):
+
     if vaultData["entries"]:
         counter = 0
         for entry in vaultData["entries"]:
@@ -235,6 +268,18 @@ def executeLs(vaultData):
     else:
         prYellow("there is currently no saved passwords")
 
+
+def executeHelp():
+    prYellow("commands:")
+    print("add    : add  github")
+    print("edit   : edit github")
+    print("get    : get  github")
+    print("del    : del  github")
+    print("search : search query")
+    print("ls     : ls")
+    print("exit   : exit")
+
+
 def executeExit():
     return "EXIT"
 
@@ -243,12 +288,18 @@ def execute(tree, vaultData):
     match tree.type:
         case "add":
             executeAdd(tree.site, vaultData)
+        case "edit":
+            executeEdit(tree.site, vaultData)
         case "del":
             executeDel(tree.site, vaultData)
         case "get":
             executeGet(tree.site, vaultData)
+        case "search":
+            executeSearch(tree.query, vaultData)
         case "ls":
             executeLs(vaultData)
+        case "help":
+            executeHelp()
         case _:
             return executeExit()
 
@@ -288,7 +339,7 @@ def main():
         if not vaultData:
             return
 
-    prYellow("commands: add | get | del | ls | exit")
+    prYellow("enter commands to execute functions. enter 'help' if you find trouble with any functions")
 
     while not ext:
         
@@ -298,7 +349,6 @@ def main():
         tree = parse(tokens)
         
         while not tree:
-            prYellow("commands: add | get | del | ls | exit")
             command = input("> ")
 
             tokens = tokenize(command)
