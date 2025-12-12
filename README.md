@@ -1,23 +1,23 @@
 # 🔐 Local CLI Password Manager
 
-A secure, single-user, offline **Command-Line Password Manager** built in Python. This project focuses on **real cryptographic design and secure systems programming**, not shortcuts. No cloud. No plaintext on disk. Zero trust in storage.
+A secure, single-user, offline **Command-Line Password Manager** built in Python. This project focuses on **proper cryptographic design, secure key management, and low-level system security principles** — not shortcuts. No cloud. No plaintext on disk. Zero trust in storage.
 
 ---
 
-## ✅ Current Status
+## ✅ Project Status
 
 * ✅ **Phase 1** — Cryptographic Lock & Authentication System: **COMPLETE**
-* ✅ **Phase 2** — Persistent Encrypted Vault + Custom CLI Command System: **COMPLETE**
-* ⏳ **Phase 3** — UX & Power-User Features (in progress)
+* ✅ **Phase 2** — Persistent Encrypted Vault + Custom CLI Interpreter: **COMPLETE**
+* ⏳ **Phase 3** — UX, Refactoring & Power-User Features: **IN PROGRESS**
 
 ---
 
-## ✅ Phase 1 — Cryptographic Lock System (COMPLETE)
+## ✅ Phase 1 — Cryptographic Lock System (Complete)
 
-Implemented a production-grade security foundation including:
+A production-grade security foundation was implemented from scratch, including:
 
-* Secure master password input via `getpass`
-* Strong key derivation using **Argon2id**
+* Secure master password entry via `getpass`
+* Strong memory-hard key derivation using **Argon2id**
 * Cryptographic key hierarchy (**authentication key vs encryption key**)
 * HMAC-based password verification
 * Authenticated encryption using **AES-256-GCM**
@@ -27,29 +27,32 @@ The vault can only be created and unlocked using the correct master password.
 
 ---
 
-## ✅ Phase 2 — Encrypted Persistent Vault + CLI Interpreter (COMPLETE)
+## ✅ Phase 2 — Encrypted Persistent Vault + CLI Interpreter (Complete)
 
-Phase 2 extended the cryptographic core into a fully usable encrypted password manager:
+Phase 2 transformed the cryptographic core into a fully usable encrypted password manager:
 
-* Persistent storage with **automatic re-encryption on exit**
+* Persistent encrypted storage with **automatic re-encryption on exit**
 * Fresh AES-GCM nonce generated on every save
-* Custom-built **command language** with:
+* Custom-built **command language**, including:
 
   * Lexer
   * Parser
   * AST nodes
   * Interpreter
-* All decrypted secrets live **only in RAM during execution**
+* All decrypted secrets exist **only in RAM during execution**
 
 ### ✅ Supported Commands
 
-| Command      | Description                            |
-| ------------ | -------------------------------------- |
-| `add <site>` | Add or overwrite a password entry      |
-| `get <site>` | Retrieve username & password           |
-| `del <site>` | Permanently delete an entry            |
-| `ls`         | List all stored sites                  |
-| `exit`       | Securely re-encrypt and save the vault |
+| Command        | Description                            |
+| -------------- | -------------------------------------- |
+| `add <site>`   | Add or overwrite a password entry      |
+| `get <site>`   | Retrieve username & password           |
+| `edit <site>`  | Modify an existing entry               |
+| `del <site>`   | Permanently delete an entry            |
+| `search <str>` | Partial-match search on stored sites   |
+| `ls`           | List all stored sites                  |
+| `help`         | Show command usage                     |
+| `exit`         | Securely re-encrypt and save the vault |
 
 ---
 
@@ -149,13 +152,13 @@ Includes:
 
 ### ✅ Security Guarantees
 
-| Threat              | Protected    |
-| ------------------- | ------------ |
-| File Theft          | ✅            |
-| Offline Brute Force | ✅ (Argon2id) |
-| Vault Tampering     | ✅ (AES-GCM)  |
-| Password Leakage    | ✅            |
-| Timing Attacks      | ✅            |
+| Threat              | Protected |
+| ------------------- | --------- |
+| File Theft          | ✅         |
+| Offline Brute Force | ✅         |
+| Vault Tampering     | ✅         |
+| Password Leakage    | ✅         |
+| Timing Attacks      | ✅         |
 
 ---
 
@@ -173,7 +176,7 @@ Behavior:
 
 ---
 
-## 🗂️ Roadmap
+## 🗂️ Development Roadmap
 
 ### ✅ Phase 1 — Cryptographic Core
 
@@ -183,20 +186,24 @@ Behavior:
 
 * Full CRUD operations
 * Encrypted save-on-exit system
+* Custom lexer/parser command interpreter
 
-### ⏳ Phase 3 — UX & Power Features (In Progress)
+### ⏳ Phase 3 — UX, Refactoring & Power Features (Current)
 
-* Search & filtering
-* Clipboard auto-copy with timeout
-* Password generator
+* Output formatting cleanup
+* Internal code refactor & modularization
+* Command help system
+* Clipboard integration
 * Entry editing
-* Improved CLI output
+* Search functionality
 
-### 🟣 Phase 4 — Advanced Security (Optional)
+### 🟣 Phase 4 — Advanced Security & Hardening (Planned)
 
-* Per-entry encryption
+* Per-entry encryption in memory
 * Key rotation
 * Secure encrypted backups
+* Clipboard auto-clear timer
+* Vault rebuild & integrity hardening
 * Memory zeroization on exit
 
 ---
@@ -212,6 +219,7 @@ This project is for **educational and personal use**. While it uses strong crypt
 * Python 3.13
 * `argon2-cffi`
 * `cryptography`
+* `pyperclip`
 
 ---
 

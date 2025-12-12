@@ -124,8 +124,8 @@ def parse(tks):
         return None
 
 if __name__ == "__main__":
-    tree = parse(["add", "github"])
-    print(tree.type, tree.site)
+    tree = parse(["search", "git"])
+    print(tree.type, tree.query)
 
     tree = parse(["ls"])
     print(tree.type)
