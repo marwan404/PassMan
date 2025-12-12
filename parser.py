@@ -42,7 +42,7 @@ class helpCMD():
 
 class searchCMD():
     def __init__(self, query):
-        self.type = "seach"
+        self.type = "search"
         self.query = query
     
 

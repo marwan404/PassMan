@@ -18,4 +18,4 @@ def tokenize(cmd):
 
 
 if __name__ == "__main__":
-    print(tokenize("add github"))
+    print(tokenize("search"))
