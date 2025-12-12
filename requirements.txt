@@ -1,0 +1,3 @@
+cryptography
+pyperclip
+argon2
