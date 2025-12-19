@@ -3,7 +3,6 @@ from argon2.low_level import hash_secret_raw, Type
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 # stdlib imports
-import getpass
 import os
 
 # local imports
