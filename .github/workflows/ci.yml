@@ -42,8 +42,20 @@ jobs:
           coverage run -m pytest -q
           coverage xml -i
 
+      - name: Check Codecov token
+        if: ${{ matrix.python-version == '3.11' }}
+        id: check-codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          if [ -z "$CODECOV_TOKEN" ]; then
+            echo "codecov_present=false" >> $GITHUB_OUTPUT
+          else
+            echo "codecov_present=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Upload coverage to Codecov
-        if: ${{ matrix.python-version == '3.11' && secrets.CODECOV_TOKEN != '' }}
+        if: ${{ matrix.python-version == '3.11' && steps.check-codecov.outputs.codecov_present == 'true' }}
         uses: codecov/codecov-action@v4
         with:
           files: ./coverage.xml
@@ -51,7 +63,7 @@ jobs:
           fail_ci_if_error: true
 
       - name: Notify about skipped Codecov upload
-        if: ${{ matrix.python-version == '3.11' && secrets.CODECOV_TOKEN == '' }}
+        if: ${{ matrix.python-version == '3.11' && steps.check-codecov.outputs.codecov_present == 'false' }}
         run: |
           echo "---"
           echo "Codecov upload skipped because repository secret CODECOV_TOKEN is not set."
