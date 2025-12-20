@@ -9,7 +9,7 @@ def tokenize(cmd):
                 tokens.append(current)
                 current = ""
         else:
-            current += ch # append character to current
+            current += ch  # append character to current
 
     if current:
         tokens.append(current)

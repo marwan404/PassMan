@@ -1,50 +1,52 @@
-def prRed(s): print("\033[91m {}\033[00m".format(s))
+def prRed(s):
+    print("\033[91m {}\033[00m".format(s))
+
 
 # command nodes
-class addCMD():
+class addCMD:
     def __init__(self, site):
         self.type = "add"
         self.site = site
 
 
-class editCMD():
+class editCMD:
     def __init__(self, site):
         self.type = "edit"
         self.site = site
 
 
-class delCMD():
+class delCMD:
     def __init__(self, site):
         self.type = "del"
         self.site = site
 
 
-class getCMD():
+class getCMD:
     def __init__(self, site):
         self.type = "get"
         self.site = site
 
 
-class lsCMD():
+class lsCMD:
     def __init__(self):
         self.type = "ls"
 
 
-class exitCMD():
+class exitCMD:
     def __init__(self):
         self.type = "exit"
 
 
-class helpCMD():
+class helpCMD:
     def __init__(self):
         self.type = "help"
 
 
-class searchCMD():
+class searchCMD:
     def __init__(self, query):
         self.type = "search"
         self.query = query
-    
+
 
 def validatedTokens(tks):
     match tks[0]:
@@ -122,6 +124,7 @@ def parse(tks):
                 return exitCMD()
     else:
         return None
+
 
 if __name__ == "__main__":
     tree = parse(["search", "git"])
