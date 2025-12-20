@@ -193,6 +193,30 @@ This project is for **educational and personal use**. While it uses strong crypt
 
 ---
 
+## Development
+
+This project uses pre-commit to run formatting and linting tools on each commit.
+
+- Black (code formatter)
+- Ruff (linter/auto-fixer)
+
+To install and enable the git hooks locally:
+
+```bash
+python -m pip install --user pre-commit
+python -m pre_commit install
+python -m pre_commit run --all-files
+```
+
+You can also run the tools directly:
+
+```bash
+python -m black .
+python -m ruff check . --fix
+```
+
+---
+
 ## 🛠️ Tech Stack
 
 * Python 3.13
