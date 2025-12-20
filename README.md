@@ -1,6 +1,6 @@
 # 🔐 Local CLI Password Manager
 
-[![CI](https://github.com/marwan404/PassMan/actions/workflows/ci.yml/badge.svg)](https://github.com/marwan404/PassMan/actions/workflows/ci.yml) [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.13-blue)](https://www.python.org/) [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![CI](https://github.com/marwan404/PassMan/actions/workflows/ci.yml/badge.svg)](https://github.com/marwan404/PassMan/actions/workflows/ci.yml) [![Codecov](https://codecov.io/gh/marwan404/PassMan/branch/main/graph/badge.svg)](https://codecov.io/gh/marwan404/PassMan) [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.13-blue)](https://www.python.org/) [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 A secure, single-user, offline **Command-Line Password Manager** built in Python. This project focuses on **proper cryptographic design, secure key management, and low-level system security principles** — not shortcuts. No cloud. No plaintext on disk. Zero trust in storage.
 
@@ -20,6 +20,8 @@ A secure, single-user, offline **Command-Line Password Manager** built in Python
 * Configured `pre-commit` with hooks for **Black** and **Ruff** and added `.pre-commit-config.yaml` and a `.gitignore` update.
 * Standardized and added Google-style docstrings across `commands.py` and `crypto.py` and renamed several functions to snake_case for consistency.
 * Reformatted the codebase with Black and fixed lint issues with Ruff.
+* Added coverage reporting to CI and a Codecov badge to the README.
+* Added a CodeQL security scanning workflow to run periodic security analysis.
 
 ---
 
