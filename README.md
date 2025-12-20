@@ -22,6 +22,7 @@ A secure, single-user, offline **Command-Line Password Manager** built in Python
 * Reformatted the codebase with Black and fixed lint issues with Ruff.
 * Added coverage reporting to CI and a Codecov badge to the README.
 * Added a CodeQL security scanning workflow to run periodic security analysis.
+* Added a Bandit security scan step to CI for fast static checks.
 
 ---
 
