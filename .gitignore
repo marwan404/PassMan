@@ -1,4 +1,62 @@
-.vault
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Pre-commit state and caches
+.pre-commit-cache/
+.cache/
+
+# Ruff cache
 .ruff_cache/
+
+# Encrypted vault and secrets
+.vault
+.env
+
+# Logs
+*.log
+
+# Misc
+*.sqlite3
+*.db
+node_modules/
