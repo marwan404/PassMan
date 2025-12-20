@@ -6,9 +6,19 @@ A secure, single-user, offline **Command-Line Password Manager** built in Python
 
 ## ✅ Project Status
 
-* ✅ **Phase 1** — Cryptographic Lock & Authentication System: **COMPLETE**
-* ✅ **Phase 2** — Persistent Encrypted Vault + Custom CLI Interpreter: **COMPLETE**
-* ⏳ **Phase 3** — UX, Refactoring & Power-User Features: **IN PROGRESS**
+* ✅ **Phase 1** — Cryptographic Lock & Authentication System — **COMPLETE**
+* ✅ **Phase 2** — Persistent Encrypted Vault + CLI Interpreter — **COMPLETE**
+* 🟣 **Phase 3** — UX, Refactoring & Power-User Features — **IN PROGRESS**
+* Planned: **Phase 4** — Advanced Security & Hardening
+
+### Recent changes (2025-12-20)
+
+- Added comprehensive unit tests (lexer, parser, crypto utilities, non-interactive command handlers) — **10 tests passing locally**.
+- Added GitHub Actions CI (matrix on Python 3.11 & 3.13) that runs `pre-commit`, `black --check`, `ruff`, and `pytest`.
+- Configured `pre-commit` with hooks for **Black** and **Ruff** and added `.pre-commit-config.yaml` and a `.gitignore` update.
+- Standardized and added Google-style docstrings across `commands.py` and `crypto.py` and renamed several functions to snake_case for consistency.
+- Reformatted the codebase with Black and fixed lint issues with Ruff.
+
 
 ---
 
