@@ -87,34 +87,13 @@ This configuration provides strong resistance against offline brute-force attack
 
 ### 3. Key Hierarchy (Separated Keys)
 
-From the `master_key`, two independent subkeys are derived using HMAC:
+From the `master_key`, one independent subkey is derived using HMAC:
 
 ```text
 enc_key  = HMAC-SHA256(master_key, "enc")
-auth_key = HMAC-SHA256(master_key, "auth")
 ```
 
-* `enc_key` → Vault encryption & decryption
-* `auth_key` → Password verification
-
-This cleanly separates authentication from encryption.
-
----
-
-### 4. Password Verification (Verifier System)
-
-```text
-verifier = HMAC-SHA256(auth_key, "verify")
-```
-
-* Stored in the vault file
-* Recomputed on every unlock attempt
-* Compared using constant-time comparison (`hmac.compare_digest`)
-
-This allows the system to:
-
-* Reject wrong passwords without attempting decryption
-* Detect corrupted vault files independently
+* `enc_key` -> Vault encryption & decryption.
 
 ---
 
