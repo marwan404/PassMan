@@ -131,13 +131,13 @@ Includes:
 
 ### ✅ Security Guarantees
 
-| Threat              | Protected |
-| ------------------- | --------- |
-| File Theft          | ✅         |
-| Offline Brute Force | ✅         |
-| Vault Tampering     | ✅         |
-| Password Leakage    | ✅         |
-| Timing Attacks      | ✅         |
+| Threat | Protected |
+| --- | --- |
+| File Theft | ✅ |
+| Offline Brute Force | ✅ |
+| Vault Tampering | ✅ |
+| Password Leakage | ✅ |
+| Timing Attacks | ✅ |
 
 ---
 
@@ -197,8 +197,8 @@ This project is for **educational and personal use**. While it uses strong crypt
 
 This project uses pre-commit to run formatting and linting tools on each commit.
 
-- Black (code formatter)
-- Ruff (linter/auto-fixer)
+* Black (code formatter)
+* Ruff (linter/auto-fixer)
 
 To install and enable the git hooks locally:
 
