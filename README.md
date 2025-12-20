@@ -22,6 +22,9 @@ A secure, single-user, offline **Command-Line Password Manager** built in Python
 * Reformatted the codebase with Black and fixed lint issues with Ruff.
 * Added coverage reporting to CI and a Codecov badge to the README.
 * Added a CodeQL security scanning workflow to run periodic security analysis.
+
+> Note: Codecov uploads require either the repository secret `CODECOV_TOKEN` or the Codecov GitHub App if your branch is protected. If you do not provide a token (or install the GitHub App), the CI step will skip uploads and print a notification in the workflow logs.
+
 * Added a Bandit security scan step to CI for fast static checks.
 
 ---

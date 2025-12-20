@@ -50,6 +50,14 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
 
+      - name: Notify about skipped Codecov upload
+        if: ${{ matrix.python-version == '3.11' && secrets.CODECOV_TOKEN == '' }}
+        run: |
+          echo "---"
+          echo "Codecov upload skipped because repository secret CODECOV_TOKEN is not set."
+          echo "To enable uploads on protected branches, either add the CODECOV_TOKEN secret (Settings → Secrets and variables → Actions) or install the Codecov GitHub App for this repository."
+          echo "See https://docs.codecov.com/docs/codecov-tokens for token details."
+
       - name: Security scan (Bandit)
         run: |
           python -m pip install bandit
